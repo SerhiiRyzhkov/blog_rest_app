@@ -9,12 +9,13 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
+@Service
 public class JwtServiceImpl implements JwtService {
 
 
@@ -35,21 +36,19 @@ public class JwtServiceImpl implements JwtService {
         return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+TIME))
-                .signWith(getSignInKey(), SignatureAlgorithm.ES256).compact();
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
     public boolean isJwtValid(String jwt, UserDetails userDetails){
         final String username = extractUsername(jwt);
-        return ((username.equals(userDetails.getUsername()))&&(isJwtExpired(jwt)));
+        return ((username.equals(userDetails.getUsername()))&&(!isJwtExpired(jwt)));
     }
 
     private boolean isJwtExpired(String jwt){
         return extractExpiration(jwt).before(new Date());
     }
 
-    private Date extractExpiration(String jwt){
-        return extractClaim(jwt,Claims::getExpiration);
-    }
+    private Date extractExpiration(String jwt){ return extractClaim(jwt,Claims::getExpiration);  }
 
 
     public <T> T extractClaim(String jwt, Function<Claims, T> claimsFunction){
@@ -63,7 +62,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Key getSignInKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(KEY);
+        byte[] keyBytes = KEY.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

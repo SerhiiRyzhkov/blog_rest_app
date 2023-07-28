@@ -25,14 +25,11 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public AuthResponse register(RegisterRequest request) {
-        System.out.println("dasdas");
-        User user = User.builder().firstName(request.getFirstname()).lastName(request.getLastname())
+        User user = User.builder().firstname(request.getFirstname()).lastname(request.getLastname())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).
                 role(Role.USER).build();
-
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
-
         return AuthResponse.builder().token(jwtToken).build();
 
     }
@@ -42,7 +39,6 @@ public class AuthServiceImp implements AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         String jwtToken = jwtService.generateToken(user);
-
         return AuthResponse.builder().token(jwtToken).build();
     }
 }
