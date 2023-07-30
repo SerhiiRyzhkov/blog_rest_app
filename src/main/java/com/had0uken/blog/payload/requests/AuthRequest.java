@@ -1,4 +1,5 @@
-package com.had0uken.blog.security;
+package com.had0uken.blog.payload.requests;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String firstname;
-    private String lastname;
+public class AuthRequest {
     private String email;
     private String password;
 }

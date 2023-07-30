@@ -1,8 +1,8 @@
 package com.had0uken.blog.controller;
 
-import com.had0uken.blog.security.AuthRequest;
-import com.had0uken.blog.security.AuthResponse;
-import com.had0uken.blog.security.RegisterRequest;
+import com.had0uken.blog.payload.requests.AuthRequest;
+import com.had0uken.blog.payload.responses.AuthResponse;
+import com.had0uken.blog.payload.requests.RegisterRequest;
 import com.had0uken.blog.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

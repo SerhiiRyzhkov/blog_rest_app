@@ -1,4 +1,4 @@
-package com.had0uken.blog.security;
+package com.had0uken.blog.payload.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

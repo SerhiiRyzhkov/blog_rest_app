@@ -1,9 +1,9 @@
 package com.had0uken.blog.service;
 
 
-import com.had0uken.blog.security.AuthRequest;
-import com.had0uken.blog.security.AuthResponse;
-import com.had0uken.blog.security.RegisterRequest;
+import com.had0uken.blog.payload.requests.AuthRequest;
+import com.had0uken.blog.payload.responses.AuthResponse;
+import com.had0uken.blog.payload.requests.RegisterRequest;
 
 public interface AuthService {
     AuthResponse register(RegisterRequest request);
