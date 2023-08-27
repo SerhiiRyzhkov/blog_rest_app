@@ -1,5 +1,6 @@
 package com.had0uken.blog.service.implementation;
 
+import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.repository.UserRepository;
 import com.had0uken.blog.service.CustomUserDetailsService;
@@ -27,4 +28,8 @@ public class UserServiceImpl implements CustomUserDetailsService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
+
+
+
 }

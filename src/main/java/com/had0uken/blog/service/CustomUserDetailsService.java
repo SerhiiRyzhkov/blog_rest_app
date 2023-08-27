@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CustomUserDetailsService extends UserDetailsService {
 
-    public List<User> findAllUsers();
+    List<User> findAllUsers();
+
+
 
 }

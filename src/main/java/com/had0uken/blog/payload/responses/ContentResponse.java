@@ -12,7 +12,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageResponse<T> {
+public class ContentResponse<T> {
     private List<T> content;
+
+    public int getSize(){
+        return content.size();
+    }
 
 }

@@ -18,7 +18,7 @@ public class Post implements Serializable {
     private String title;
     private String body;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;
