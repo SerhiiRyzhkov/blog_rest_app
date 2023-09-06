@@ -16,9 +16,9 @@ in process...
 |--------|-----------------|----------------|---------------------------|
 | GET    | /api/posts/     | Get all posts  |                           |
 | GET    | /api/posts/{id} | Get post by id |                           |
-| POST   | /api/posts/     | Add new post   | [JSON](#addNewPost)       |
-| PUT    | /api/posts/{id} | Update post    | [JSON](#addNewPost)       |
-
+| POST   | /api/posts/     | Add new post   | [JSON](#addPost)          |
+| PUT    | /api/posts/{id} | Update post    | [JSON](#updatePost)       |
+| DELETE | /api/posts/{id} | Delete post    |                           |
 
 
 ##  JSON Request Bodies examples
@@ -41,11 +41,20 @@ in process...
 }
 ```
 
-##### <a id="addNewPost">Log In -> /api/posts/</a>
+##### <a id="addPost">Log In -> /api/posts/</a>
 ```json
 {
   "title": "My New Blog Post",
   "body": "This is the content of my new blog post. It's a very interesting topic that I wanted to share with everyone!"
 }
 ```
+
+##### <a id="updatePost">Log In -> /api/posts/</a>
+```json
+{
+  "title": "My Updated Blog Post",
+  "body": "This is the content of my updated blog post. It's a very interesting topic that I wanted to share with everyone!"
+}
+```
+
 

@@ -2,7 +2,10 @@ package com.had0uken.blog.controller;
 
 import com.had0uken.blog.model.user.Post;
 import com.had0uken.blog.model.user.User;
+import com.had0uken.blog.payload.responses.ApiResponse;
 import com.had0uken.blog.payload.responses.ContentResponse;
+import com.had0uken.blog.payload.responses.Response;
+import com.had0uken.blog.repository.PostRepository;
 import com.had0uken.blog.security.UserPrincipal;
 import com.had0uken.blog.service.CustomUserDetailsService;
 import com.had0uken.blog.service.PostService;
@@ -26,37 +29,42 @@ public class PostController {
 
 
     @GetMapping("/")
-    public ResponseEntity<ContentResponse<Post>> getAllPosts(){
-        ContentResponse<Post> response = new ContentResponse<>(postService.findAllPosts());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response> getAllPosts(){
+        Response response = postService.getAllPosts();
+        return new ResponseEntity<>(response,response.getStatus());
     }
+
+
+
     @GetMapping("/{id}")
-    public ResponseEntity<ContentResponse<Post>> getPostsById(@PathVariable Long id){
-        ContentResponse<Post> response = new ContentResponse<>(List.of(postService.findPostById(id)));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response> getPostById(@PathVariable Long id)
+    {
+        Response response = postService.getPost(id);
+        return new ResponseEntity<>(response,response.getStatus());
     }
+
 
     @PostMapping("/")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ContentResponse<Post>> addNewPost(@RequestBody Post post, Authentication authentication){
+    public ResponseEntity<Response> addNewPost(@RequestBody Post post, Authentication authentication){
         post.setUser((User) userService.loadUserByUsername(authentication.getName()));
-        postService.addNewPost(post);
-        ContentResponse<Post> response = new ContentResponse<>(List.of(postService.findPostById(post.getId())));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Response response = postService.addNewPost(post);
+        return new ResponseEntity<>(response,response.getStatus());
     }
 
- /*   @PutMapping("/{id}")
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Response> updatePost(@PathVariable Long id, @RequestBody Post post, Authentication authentication){
+        Response response = postService.updatePost(post,id,authentication);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
+
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
-    public ResponseEntity<ContentResponse<Post>> updatePost(@PathVariable Long id, @RequestBody Post post, Authentication authentication){
-        if(postService.isAllowed(id, (User) userService.loadUserByUsername(authentication.getName())))
-            postService.updatePost(id,post);
-        ContentResponse<Post> response = new ContentResponse<>(List.of(postService.findPostById(post.getId())));
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }*/
-
-
-
-
+    public ResponseEntity<Response> deletePost(@PathVariable Long id, Authentication authentication){
+        Response response = postService.deletePost(id,authentication);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
 
 
 }

@@ -3,12 +3,15 @@ package com.had0uken.blog.service.implementation;
 import com.had0uken.blog.model.user.Post;
 import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
+import com.had0uken.blog.payload.responses.ApiResponse;
+import com.had0uken.blog.payload.responses.ContentResponse;
+import com.had0uken.blog.payload.responses.Response;
 import com.had0uken.blog.repository.PostRepository;
 import com.had0uken.blog.repository.UserRepository;
-import com.had0uken.blog.security.UserPrincipal;
 import com.had0uken.blog.service.PostService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,40 +21,63 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    public List<Post> findAllPosts(){
-        return postRepository.findAll();
-    }
-    public Post findPostById(Long id) {
-        return postRepository.findById(id).get();
+    private final UserRepository userRepository;
+
+    @Override
+    public Response getAllPosts() {
+        return new ContentResponse<>(postRepository.findAll(),HttpStatus.OK);
     }
 
     @Override
-    public List<Post> findPostsByAuthorId(Long id) {
-        return postRepository.findByUser_Id(id);
+    public Response getPost(Long id) {
+        Optional<Post> postOptional = postRepository.findById(id);
+        if(postOptional.isPresent())
+        return new ContentResponse<>(List.of(postOptional.get()),HttpStatus.OK);
+        else return new ApiResponse("Post not found", HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public void addNewPost(Post post) {
+    public Response addNewPost(Post post) {
         postRepository.save(post);
+        return new ApiResponse("Post created successfully",HttpStatus.CREATED);
     }
 
     @Override
-    public void updatePost(Long id, Post post) {
-        Optional<Post> existingPostOptional = postRepository.findById(id);
-        if (existingPostOptional.isPresent()) {
-            Post existingPost = existingPostOptional.get();
+    public Response updatePost(Post post, Long id, Authentication authentication) {
+        Optional<Post> optional = postRepository.findById(id);
+        if(optional.isPresent()){
+            Post existingPost = optional.get();
+            if(!checkAccess(existingPost,authentication))
+                return new ApiResponse("You do not have permission to delete this post",HttpStatus.FORBIDDEN);
             existingPost.setTitle(post.getTitle());
             existingPost.setBody(post.getBody());
             postRepository.save(existingPost);
-        } else {
-            throw new EntityNotFoundException("Post with ID " + id + " not found");
+            return new ApiResponse("Post updated successfully",HttpStatus.OK);
         }
+        else
+            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public boolean isAllowed(Long id, User user) {
-        if((user.getAuthorities().contains(Role.MODERATOR))||user.getAuthorities().contains(Role.ADMIN))return true;
-        Optional<Post> post = postRepository.findById(id);
-        return post.map(value -> value.getUser().equals(user)).orElse(false);
+    public Response deletePost(Long id, Authentication authentication) {
+        Optional<Post>optional = postRepository.findById(id);
+        if(optional.isPresent()){
+            Post existingPost = optional.get();
+            if(!checkAccess(existingPost,authentication))
+                return new ApiResponse("You do not have permission to delete this post",HttpStatus.FORBIDDEN);
+            postRepository.delete(existingPost);
+            return new ApiResponse("Post deleted successfully",HttpStatus.NO_CONTENT);
+        }
+        else
+            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
     }
+
+
+    private boolean checkAccess(Post post, Authentication authentication)
+    {
+        User user = userRepository.findByEmail(authentication.getName()).get();
+        return ((post.getUser().equals(user))||(user.getAuthorities().contains(Role.ADMIN))
+                ||(user.getAuthorities().contains(Role.MODERATOR)));
+    }
+
 }
