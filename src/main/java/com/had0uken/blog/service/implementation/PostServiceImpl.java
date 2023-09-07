@@ -1,6 +1,6 @@
 package com.had0uken.blog.service.implementation;
 
-import com.had0uken.blog.model.user.Post;
+import com.had0uken.blog.model.Post;
 import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.ApiResponse;
@@ -70,6 +70,60 @@ public class PostServiceImpl implements PostService {
         }
         else
             return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public Response likePost(Long id, Authentication authentication) {
+        Optional<Post> optional=postRepository.findById(id);
+        if(optional.isPresent()) {
+            Post existingPost = optional.get();
+            User user = userRepository.findByEmail(authentication.getName()).get();
+            Response response;
+            if (!existingPost.getLikedByUsers().contains(user)) {
+                existingPost.getLikedByUsers().add(user);
+                user.getLikedPosts().add(existingPost);
+                response = new ApiResponse("Post liked successfully", HttpStatus.OK);
+            } else {
+                existingPost.getLikedByUsers().remove(user);
+                user.getLikedPosts().remove(existingPost);
+                response = new ApiResponse("Post unliked successfully", HttpStatus.OK);
+            }
+            userRepository.save(user);
+            postRepository.save(existingPost);
+            return response;
+        }
+        else
+            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public Response repostedPost(Long id, Authentication authentication) {
+        Optional<Post> optional=postRepository.findById(id);
+        if(optional.isPresent()) {
+            Post existingPost = optional.get();
+            User user = userRepository.findByEmail(authentication.getName()).get();
+            if(existingPost.getUser().equals(user)) return new ApiResponse("You are not allowed to repost your own post", HttpStatus.FORBIDDEN);
+
+            Response response;
+
+            if (!existingPost.getRepostedByUsers().contains(user)) {
+                existingPost.getRepostedByUsers().add(user);
+                user.getRepostedPosts().add(existingPost);
+                response = new ApiResponse("Post reposted successfully", HttpStatus.OK);
+            } else {
+                response = new ApiResponse("Post already reposted", HttpStatus.OK);
+            }
+            userRepository.save(user);
+            postRepository.save(existingPost);
+            return response;
+        }
+        else
+            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public Post findPost(Long id) {
+        return postRepository.findById(id).get();
     }
 
 

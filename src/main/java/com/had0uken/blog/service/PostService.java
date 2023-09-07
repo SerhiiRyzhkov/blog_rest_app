@@ -1,6 +1,6 @@
 package com.had0uken.blog.service;
 
-import com.had0uken.blog.model.user.Post;
+import com.had0uken.blog.model.Post;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.ContentResponse;
 import com.had0uken.blog.payload.responses.Response;
@@ -16,4 +16,8 @@ public interface PostService {
     Response addNewPost(Post post);
     Response updatePost(Post post, Long id, Authentication authentication);
     Response deletePost(Long id, Authentication authentication);
+    Response likePost(Long id, Authentication authentication);
+    Response repostedPost(Long id, Authentication authentication);
+
+    Post findPost(Long id);
 }

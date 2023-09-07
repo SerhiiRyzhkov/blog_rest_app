@@ -5,21 +5,22 @@ in process...
 
 ### Auth
 
-| Method | Url                    | Decription       | Sample Valid Request Body | 
-| ------ |------------------------|------------------|---------------------------|
-| POST   | /api/auth/register     | Sign up          | [JSON](#signUp)           |
-| POST   | /api/auth/authenticate | Log in           | [JSON](#signIn)           |
+| Method | Url                    | Description | Sample Valid Request Body | 
+|--------|------------------------|-------------|---------------------------|
+| POST   | /api/auth/register     | Sign up     | [JSON](#signUp)           |
+| POST   | /api/auth/authenticate | Log in      | [JSON](#signIn)           |
 
 ### Posts
 
-| Method | Url             | Decription     | Sample Valid Request Body | 
-|--------|-----------------|----------------|---------------------------|
-| GET    | /api/posts/     | Get all posts  |                           |
-| GET    | /api/posts/{id} | Get post by id |                           |
-| POST   | /api/posts/     | Add new post   | [JSON](#addPost)          |
-| PUT    | /api/posts/{id} | Update post    | [JSON](#updatePost)       |
-| DELETE | /api/posts/{id} | Delete post    |                           |
-
+| Method | Url                    | Description      | Sample Valid Request Body | 
+|--------|------------------------|------------------|---------------------------|
+| GET    | /api/posts/            | Get all posts    |                           |
+| GET    | /api/posts/{id}        | Get post by id   |                           |
+| POST   | /api/posts/            | Add new post     | [JSON](#addPost)          |
+| PUT    | /api/posts/{id}        | Update post      | [JSON](#updatePost)       |
+| DELETE | /api/posts/{id}        | Delete post      |                           |
+| POST   | /api/posts/{id}/like   | Like/unlike post |                           |
+| POST   | /api/posts/{id}/repost | Repost post      |                           |
 
 ##  JSON Request Bodies examples
 

@@ -1,24 +1,15 @@
 package com.had0uken.blog.controller;
 
-import com.had0uken.blog.model.user.Post;
+import com.had0uken.blog.model.Post;
 import com.had0uken.blog.model.user.User;
-import com.had0uken.blog.payload.responses.ApiResponse;
-import com.had0uken.blog.payload.responses.ContentResponse;
 import com.had0uken.blog.payload.responses.Response;
-import com.had0uken.blog.repository.PostRepository;
-import com.had0uken.blog.security.UserPrincipal;
 import com.had0uken.blog.service.CustomUserDetailsService;
 import com.had0uken.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -66,6 +57,18 @@ public class PostController {
         return new ResponseEntity<>(response,response.getStatus());
     }
 
+
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Response> likePost (@PathVariable Long id, Authentication authentication){
+        Response response = postService.likePost(id,authentication);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
+
+    @PostMapping("/{id}/repost")
+    public ResponseEntity<Response> repostPost (@PathVariable Long id, Authentication authentication){
+        Response response = postService.repostedPost(id,authentication);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
 
 }
 

@@ -1,6 +1,6 @@
 package com.had0uken.blog.repository;
 
-import com.had0uken.blog.model.user.Post;
+import com.had0uken.blog.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
