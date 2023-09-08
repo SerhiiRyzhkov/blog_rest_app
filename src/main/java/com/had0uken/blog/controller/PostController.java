@@ -1,6 +1,6 @@
 package com.had0uken.blog.controller;
 
-import com.had0uken.blog.model.Post;
+import com.had0uken.blog.model.post.Post;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.Response;
 import com.had0uken.blog.service.CustomUserDetailsService;
@@ -38,8 +38,12 @@ public class PostController {
     @PostMapping("/")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Response> addNewPost(@RequestBody Post post, Authentication authentication){
-        post.setUser((User) userService.loadUserByUsername(authentication.getName()));
-        Response response = postService.addNewPost(post);
+      /*Post post = Post.builder()
+                .title(postRequest.getTitle())
+                .body(postRequest.getBody())
+                .photos(postRequest.getPhotos())
+                .build();*/
+        Response response = postService.addNewPost(post,authentication);
         return new ResponseEntity<>(response,response.getStatus());
     }
 

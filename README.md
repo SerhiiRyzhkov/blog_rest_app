@@ -45,8 +45,28 @@ in process...
 ##### <a id="addPost">Log In -> /api/posts/</a>
 ```json
 {
-  "title": "My New Blog Post",
-  "body": "This is the content of my new blog post. It's a very interesting topic that I wanted to share with everyone!"
+  "title": "New Post Title",
+  "body": "This is the body of the new post",
+  "photos": [
+    {
+      "URL": "https://google.com/photo1.jpg",
+      "fileName": "photo1.jpg",
+      "size": 2048.0,
+      "photoType": "JPEG"
+    },
+    {
+      "URL": "https://google.com/photo2.jpg",
+      "fileName": "photo2.jpg",
+      "size": 1024.0,
+      "photoType": "JPEG"
+    },
+    {
+      "URL": "https://google.com/photo3.png",
+      "fileName": "photo3.png",
+      "size": 512.0,
+      "photoType": "PNG"
+    }
+  ]
 }
 ```
 

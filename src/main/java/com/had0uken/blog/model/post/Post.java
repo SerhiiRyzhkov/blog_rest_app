@@ -1,15 +1,11 @@
-package com.had0uken.blog.model;
+package com.had0uken.blog.model.post;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.had0uken.blog.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
@@ -19,7 +15,7 @@ import java.util.Set;
 @Table(name = "posts")
 public class Post implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String body;
@@ -37,6 +33,12 @@ public class Post implements Serializable {
     @ToString.Exclude
     @ManyToMany(mappedBy = "repostedPosts", cascade = CascadeType.PERSIST)
     private Set<User> repostedByUsers = new HashSet<>();
+
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id")
+    private List<Photo> photos = new ArrayList<>();
 
 
     @Override

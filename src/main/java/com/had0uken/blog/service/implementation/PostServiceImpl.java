@@ -1,11 +1,13 @@
 package com.had0uken.blog.service.implementation;
 
-import com.had0uken.blog.model.Post;
+import com.had0uken.blog.model.post.Photo;
+import com.had0uken.blog.model.post.Post;
 import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.ApiResponse;
 import com.had0uken.blog.payload.responses.ContentResponse;
 import com.had0uken.blog.payload.responses.Response;
+import com.had0uken.blog.repository.PhotoRepository;
 import com.had0uken.blog.repository.PostRepository;
 import com.had0uken.blog.repository.UserRepository;
 import com.had0uken.blog.service.PostService;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PhotoRepository photoRepository;
 
     @Override
     public Response getAllPosts() {
@@ -37,7 +40,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response addNewPost(Post post) {
+    public Response addNewPost(Post post,Authentication authentication) {
+        User user = userRepository.findByEmail(authentication.getName()).get();
+        post.setUser(user);
         postRepository.save(post);
         return new ApiResponse("Post created successfully",HttpStatus.CREATED);
     }
@@ -49,8 +54,15 @@ public class PostServiceImpl implements PostService {
             Post existingPost = optional.get();
             if(!checkAccess(existingPost,authentication))
                 return new ApiResponse("You do not have permission to delete this post",HttpStatus.FORBIDDEN);
+            if(post.getTitle()!=null)
             existingPost.setTitle(post.getTitle());
+            if(post.getBody()!=null)
             existingPost.setBody(post.getBody());
+            if(post.getPhotos()!=null) {
+              List<Photo> deleteList = existingPost.getPhotos();
+              existingPost.setPhotos(post.getPhotos());
+              photoRepository.deleteAll(deleteList);
+            }
             postRepository.save(existingPost);
             return new ApiResponse("Post updated successfully",HttpStatus.OK);
         }

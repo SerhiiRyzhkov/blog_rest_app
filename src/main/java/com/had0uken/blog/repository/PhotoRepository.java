@@ -1,12 +1,10 @@
 package com.had0uken.blog.repository;
 
+import com.had0uken.blog.model.post.Photo;
 import com.had0uken.blog.model.post.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface PostRepository extends JpaRepository<Post,Long> {
-    List<Post> findByUser_Id(Long id);
+public interface PhotoRepository extends JpaRepository<Photo,Long> {
 }

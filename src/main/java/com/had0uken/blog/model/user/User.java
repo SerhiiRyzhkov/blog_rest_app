@@ -2,7 +2,7 @@ package com.had0uken.blog.model.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.had0uken.blog.model.Post;
+import com.had0uken.blog.model.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
