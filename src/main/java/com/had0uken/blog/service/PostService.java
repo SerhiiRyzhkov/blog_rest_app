@@ -12,6 +12,4 @@ public interface PostService {
     Response deletePost(Long id, Authentication authentication);
     Response likePost(Long id, Authentication authentication);
     Response repostedPost(Long id, Authentication authentication);
-
-    Post findPost(Long id);
 }

@@ -1,8 +1,6 @@
 package com.had0uken.blog.model.post;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.had0uken.blog.model.Tag;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,15 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "photos")
-public class Photo {
+@Table(name = "mediafiles")
+public class MediaFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +23,8 @@ public class Photo {
     private Double size;
 
     @Enumerated(EnumType.STRING)
-    private PhotoType photoType;
+    @JsonProperty("mediatype")
+    private MediaType mediaType;
     @JsonProperty("URL")
     private String URL;
 
@@ -36,8 +34,8 @@ public class Photo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Photo photo = (Photo) o;
-        return id.equals(photo.id);
+        MediaFile mediaFile = (MediaFile) o;
+        return id.equals(mediaFile.id);
     }
 
     @Override

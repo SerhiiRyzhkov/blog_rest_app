@@ -1,26 +1,27 @@
 package com.had0uken.blog.model.post;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.had0uken.blog.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "posts")
-public class Post implements Serializable {
+@Table(name = "stories")
+public class Stories {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String body;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -29,30 +30,27 @@ public class Post implements Serializable {
 
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "likedPosts", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "likedStories", cascade = CascadeType.PERSIST)
     private Set<User> likedByUsers = new HashSet<>();
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "repostedPosts", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "repostedStories", cascade = CascadeType.PERSIST)
     private Set<User> repostedByUsers = new HashSet<>();
 
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
-    @JsonProperty("mediafiles")
-    private List<MediaFile> mediaFiles = new ArrayList<>();
-
+    @OneToOne
+    @JoinColumn(name = "media_file_id")
+    @JsonProperty("mediafile")
+    private MediaFile mediaFile;
 
     private LocalDate created;
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return Objects.equals(id, post.id);
+        Stories stories = (Stories) o;
+        return Objects.equals(id, stories.id);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.had0uken.blog.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.had0uken.blog.model.post.Post;
+import com.had0uken.blog.model.post.Stories;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,6 +57,27 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     private Set<Post> repostedPosts = new HashSet<>();
+
+
+    @ToString.Exclude
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "user_liked_stories",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "stories_id")
+    )
+    private Set<Stories> likedStories = new HashSet<>();
+
+    @ToString.Exclude
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "user_reposted_stories",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "stories_id")
+    )
+    private Set<Stories> repostedStories = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

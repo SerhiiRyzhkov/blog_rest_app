@@ -1,9 +1,11 @@
 package com.had0uken.blog.model.post;
 
-public enum PhotoType {
+public enum MediaType {
     JPEG,
     PNG,
     SVG,
-    WebP
+    WebP,
+    MP4,
+    AAC
 
 }

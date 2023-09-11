@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final CustomUserDetailsService userService;
 
 
     @GetMapping("/")
@@ -38,11 +37,6 @@ public class PostController {
     @PostMapping("/")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Response> addNewPost(@RequestBody Post post, Authentication authentication){
-      /*Post post = Post.builder()
-                .title(postRequest.getTitle())
-                .body(postRequest.getBody())
-                .photos(postRequest.getPhotos())
-                .build();*/
         Response response = postService.addNewPost(post,authentication);
         return new ResponseEntity<>(response,response.getStatus());
     }
