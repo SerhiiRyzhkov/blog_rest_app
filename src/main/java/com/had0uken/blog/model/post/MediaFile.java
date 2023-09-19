@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Data
@@ -15,7 +17,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "mediafiles")
-public class MediaFile {
+public class MediaFile implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 4749415838819372120L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

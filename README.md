@@ -22,6 +22,24 @@ in process...
 | POST   | /api/posts/{id}/like   | Like/unlike post |                           |
 | POST   | /api/posts/{id}/repost | Repost post      |                           |
 
+### Stories
+
+| Method | Url                    | Description         | Sample Valid Request Body  | 
+|--------|------------------------|---------------------|----------------------------|
+| GET    | /api/stories/          | Get all stories     |                            |
+| GET    | /api/stories/{id}      | Get stories by id   |                            |
+| POST   | /api/stories/          | Add new stories     | [JSON](#addStories)        |
+| DELETE | /api/posts/{id}        | Delete stories      |                            |
+| POST   | /api/posts/{id}/like   | Like/unlike stories |                            |
+| POST   | /api/posts/{id}/repost | Repost stories      |                            |
+
+### Tags
+
+| Method | Url                    | Description         | Sample Valid Request Body  | 
+|--------|------------------------|---------------------|----------------------------|
+| GET    | /api/tags/{id}/posts   | Get posts by tag    |                            |
+| GET    | /api/tags/{id}/stories | Get stories by tag  |                            |
+
 ##  JSON Request Bodies examples
 
 ##### <a id="signUp">Sign Up -> /api/auth/register</a>
@@ -34,7 +52,7 @@ in process...
 }
 ```
 
-##### <a id="signIn">Log In -> /api/auth/authenticate</a>
+##### <a id="signIn">Sign In -> /api/auth/authenticate</a>
 ```json
 {
   "email": "had0uken@ukr.net",
@@ -42,7 +60,7 @@ in process...
 }
 ```
 
-##### <a id="addPost">Log In -> /api/posts/</a>
+##### <a id="addPost">Add new post  -> /api/posts/</a>
 ```json
 {
   "title": "New Post Title",
@@ -70,7 +88,7 @@ in process...
 }
 ```
 
-##### <a id="updatePost">Log In -> /api/posts/</a>
+##### <a id="updatePost">Update post -> /api/posts/{id}</a>
 ```json
 {
   "title": "My Updated Blog Post",
@@ -78,4 +96,16 @@ in process...
 }
 ```
 
+##### <a id="addStories">Add new stories -> /api/stories/</a>
+```json
+{
+  "mediafile":
+  {
+    "URL": "https://google.com/photo1.jpg",
+    "fileName": "photo1.jpg",
+    "size": 2048.0,
+    "mediatype": "JPEG"
+  }
+}
+```
 

@@ -2,14 +2,15 @@ package com.had0uken.blog.model.post;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.had0uken.blog.model.Tag;
 import com.had0uken.blog.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
@@ -17,8 +18,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "stories")
-public class Stories {
+public class Stories implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 4361816262692500716L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +39,14 @@ public class Stories {
     @ToString.Exclude
     @ManyToMany(mappedBy = "repostedStories", cascade = CascadeType.PERSIST)
     private Set<User> repostedByUsers = new HashSet<>();
+
+    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinTable(name = "stories_tags",
+            joinColumns = @JoinColumn(name = "stories_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
+
 
 
     @OneToOne

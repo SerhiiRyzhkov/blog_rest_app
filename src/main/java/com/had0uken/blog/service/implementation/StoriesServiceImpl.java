@@ -1,6 +1,7 @@
 package com.had0uken.blog.service.implementation;
 
 
+import com.had0uken.blog.model.Tag;
 import com.had0uken.blog.model.post.Post;
 import com.had0uken.blog.model.post.Stories;
 import com.had0uken.blog.model.user.Role;
@@ -8,9 +9,12 @@ import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.ApiResponse;
 import com.had0uken.blog.payload.responses.ContentResponse;
 import com.had0uken.blog.payload.responses.Response;
+import com.had0uken.blog.repository.MediaRepository;
 import com.had0uken.blog.repository.StoriesRepository;
+import com.had0uken.blog.repository.TagRepository;
 import com.had0uken.blog.repository.UserRepository;
 import com.had0uken.blog.service.StoriesService;
+import com.had0uken.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -26,6 +30,8 @@ public class StoriesServiceImpl implements StoriesService {
 
     private final StoriesRepository storiesRepository;
     private final UserRepository userRepository;
+    private final MediaRepository mediaRepository;
+    private final TagRepository tagRepository;
 
     @Override
     public Response getAllStories() {
@@ -39,11 +45,19 @@ public class StoriesServiceImpl implements StoriesService {
             return new ContentResponse<>(List.of(optional.get()),HttpStatus.OK);
         else return new ApiResponse("Stories not found", HttpStatus.NOT_FOUND);
     }
+    @Override
+    public Response getStoriesByTag(String tag) {
+        return new ContentResponse<>(storiesRepository.findByTagName(tag),HttpStatus.OK);
+    }
+
 
     @Override
     public Response addNewStories(Stories stories, Authentication authentication) {
+        mediaRepository.save(stories.getMediaFile());
         User user = userRepository.findByEmail(authentication.getName()).get();
         stories.setUser(user);
+        tagRepository.saveAll(stories.getTags());
+        storiesRepository.save(stories);
         stories.setCreated(LocalDate.now());
         storiesRepository.save(stories);
         return new ApiResponse("Stories was created", HttpStatus.CREATED);
@@ -58,6 +72,7 @@ public class StoriesServiceImpl implements StoriesService {
             if(!checkAccess(existingStories,authentication))
                 return new ApiResponse("You do not have permission to delete this stories", HttpStatus.FORBIDDEN);
             storiesRepository.delete(existingStories);
+
             return new ApiResponse("Stories deleted successfully", HttpStatus.NO_CONTENT);
         }
         else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);

@@ -1,6 +1,7 @@
 package com.had0uken.blog.model.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.had0uken.blog.model.Tag;
 import com.had0uken.blog.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,9 +40,15 @@ public class Post implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
     @JsonProperty("mediafiles")
     private List<MediaFile> mediaFiles = new ArrayList<>();
+
+    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinTable(name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 
 
     private LocalDate created;

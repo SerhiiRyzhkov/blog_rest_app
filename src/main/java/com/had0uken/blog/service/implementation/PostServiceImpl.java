@@ -1,5 +1,6 @@
 package com.had0uken.blog.service.implementation;
 
+import com.had0uken.blog.model.Tag;
 import com.had0uken.blog.model.post.MediaFile;
 import com.had0uken.blog.model.post.Post;
 import com.had0uken.blog.model.user.Role;
@@ -9,8 +10,10 @@ import com.had0uken.blog.payload.responses.ContentResponse;
 import com.had0uken.blog.payload.responses.Response;
 import com.had0uken.blog.repository.MediaRepository;
 import com.had0uken.blog.repository.PostRepository;
+import com.had0uken.blog.repository.TagRepository;
 import com.had0uken.blog.repository.UserRepository;
 import com.had0uken.blog.service.PostService;
+import com.had0uken.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -26,6 +29,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final MediaRepository mediaRepository;
+    private final TagRepository tagRepository;
 
     @Override
     public Response getAllPosts() {
@@ -41,10 +45,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Response getPostsByTag(String tag) {
+        return new ContentResponse<>(postRepository.findByTagName(tag),HttpStatus.OK);
+    }
+
+    @Override
     public Response addNewPost(Post post,Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName()).get();
         post.setUser(user);
         post.setCreated(LocalDate.now());
+        tagRepository.saveAll(post.getTags());
         postRepository.save(post);
         return new ApiResponse("Post created successfully",HttpStatus.CREATED);
     }
