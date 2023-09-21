@@ -16,7 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "posts")
-public class Post implements Serializable {
+public class Post implements Serializable,UserOwned {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,6 +37,8 @@ public class Post implements Serializable {
     @ManyToMany(mappedBy = "repostedPosts", cascade = CascadeType.PERSIST)
     private Set<User> repostedByUsers = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
 
 
     @OneToMany(cascade = CascadeType.ALL)

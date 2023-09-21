@@ -13,6 +13,7 @@ import com.had0uken.blog.repository.MediaRepository;
 import com.had0uken.blog.repository.StoriesRepository;
 import com.had0uken.blog.repository.TagRepository;
 import com.had0uken.blog.repository.UserRepository;
+import com.had0uken.blog.sequrity.Access;
 import com.had0uken.blog.service.StoriesService;
 import com.had0uken.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class StoriesServiceImpl implements StoriesService {
     private final UserRepository userRepository;
     private final MediaRepository mediaRepository;
     private final TagRepository tagRepository;
+    private final Access access;
 
     @Override
     public Response getAllStories() {
@@ -44,10 +46,6 @@ public class StoriesServiceImpl implements StoriesService {
         if(optional.isPresent())
             return new ContentResponse<>(List.of(optional.get()),HttpStatus.OK);
         else return new ApiResponse("Stories not found", HttpStatus.NOT_FOUND);
-    }
-    @Override
-    public Response getStoriesByTag(String tag) {
-        return new ContentResponse<>(storiesRepository.findByTagName(tag),HttpStatus.OK);
     }
 
 
@@ -69,7 +67,7 @@ public class StoriesServiceImpl implements StoriesService {
         Optional<Stories> optional = storiesRepository.findById(id);
         if(optional.isPresent()){
             Stories existingStories = optional.get();
-            if(!checkAccess(existingStories,authentication))
+            if(!access.editCheckAccess(existingStories,authentication))
                 return new ApiResponse("You do not have permission to delete this stories", HttpStatus.FORBIDDEN);
             storiesRepository.delete(existingStories);
 
@@ -119,10 +117,5 @@ public class StoriesServiceImpl implements StoriesService {
         else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
     }
 
-    private boolean checkAccess(Stories stories, Authentication authentication)
-    {
-        User user = userRepository.findByEmail(authentication.getName()).get();
-        return ((stories.getUser().equals(user))||(user.getAuthorities().contains(Role.ADMIN))
-                ||(user.getAuthorities().contains(Role.MODERATOR)));
-    }
+
 }

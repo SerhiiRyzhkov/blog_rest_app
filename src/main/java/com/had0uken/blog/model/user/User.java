@@ -2,6 +2,7 @@ package com.had0uken.blog.model.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.had0uken.blog.model.post.Comment;
 import com.had0uken.blog.model.post.Post;
 import com.had0uken.blog.model.post.Stories;
 import jakarta.persistence.*;
@@ -37,6 +38,10 @@ public class User implements UserDetails, Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 
     @ToString.Exclude
     @JsonIgnore

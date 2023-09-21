@@ -18,7 +18,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "stories")
-public class Stories implements Serializable {
+public class Stories implements Serializable,UserOwned {
 
     @Serial
     private static final long serialVersionUID = 4361816262692500716L;

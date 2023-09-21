@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 public interface PostService {
     Response getAllPosts();
     Response getPost(Long id);
-    Response getPostsByTag(String tag);
     Response addNewPost(Post post, Authentication authentication);
     Response updatePost(Post post, Long id, Authentication authentication);
     Response deletePost(Long id, Authentication authentication);

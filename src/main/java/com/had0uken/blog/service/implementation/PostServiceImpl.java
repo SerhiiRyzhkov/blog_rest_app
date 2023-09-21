@@ -12,6 +12,7 @@ import com.had0uken.blog.repository.MediaRepository;
 import com.had0uken.blog.repository.PostRepository;
 import com.had0uken.blog.repository.TagRepository;
 import com.had0uken.blog.repository.UserRepository;
+import com.had0uken.blog.sequrity.Access;
 import com.had0uken.blog.service.PostService;
 import com.had0uken.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
     private final MediaRepository mediaRepository;
     private final TagRepository tagRepository;
+    private final Access access;
 
     @Override
     public Response getAllPosts() {
@@ -44,10 +46,6 @@ public class PostServiceImpl implements PostService {
         else return new ApiResponse("Post not found", HttpStatus.NOT_FOUND);
     }
 
-    @Override
-    public Response getPostsByTag(String tag) {
-        return new ContentResponse<>(postRepository.findByTagName(tag),HttpStatus.OK);
-    }
 
     @Override
     public Response addNewPost(Post post,Authentication authentication) {
@@ -64,7 +62,7 @@ public class PostServiceImpl implements PostService {
         Optional<Post> optional = postRepository.findById(id);
         if(optional.isPresent()){
             Post existingPost = optional.get();
-            if(!checkAccess(existingPost,authentication))
+            if(!access.editCheckAccess(existingPost,authentication))
                 return new ApiResponse("You do not have permission to update this post",HttpStatus.FORBIDDEN);
             if(post.getTitle()!=null)
             existingPost.setTitle(post.getTitle());
@@ -87,7 +85,7 @@ public class PostServiceImpl implements PostService {
         Optional<Post>optional = postRepository.findById(id);
         if(optional.isPresent()){
             Post existingPost = optional.get();
-            if(!checkAccess(existingPost,authentication))
+            if(!access.deleteCheckAccess(existingPost, authentication))
                 return new ApiResponse("You do not have permission to delete this post",HttpStatus.FORBIDDEN);
             postRepository.delete(existingPost);
             return new ApiResponse("Post deleted successfully",HttpStatus.NO_CONTENT);
@@ -146,11 +144,6 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private boolean checkAccess(Post post, Authentication authentication)
-    {
-        User user = userRepository.findByEmail(authentication.getName()).get();
-        return ((post.getUser().equals(user))||(user.getAuthorities().contains(Role.ADMIN))
-                ||(user.getAuthorities().contains(Role.MODERATOR)));
-    }
+
 
 }
