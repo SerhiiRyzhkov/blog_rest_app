@@ -1,10 +1,7 @@
 package com.had0uken.blog.service.implementation;
 
 
-import com.had0uken.blog.model.Tag;
-import com.had0uken.blog.model.post.Post;
 import com.had0uken.blog.model.post.Stories;
-import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.ApiResponse;
 import com.had0uken.blog.payload.responses.ContentResponse;
@@ -13,9 +10,8 @@ import com.had0uken.blog.repository.MediaRepository;
 import com.had0uken.blog.repository.StoriesRepository;
 import com.had0uken.blog.repository.TagRepository;
 import com.had0uken.blog.repository.UserRepository;
-import com.had0uken.blog.sequrity.Access;
+import com.had0uken.blog.access.Access;
 import com.had0uken.blog.service.StoriesService;
-import com.had0uken.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

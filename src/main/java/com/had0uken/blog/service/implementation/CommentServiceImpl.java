@@ -9,7 +9,7 @@ import com.had0uken.blog.payload.responses.Response;
 import com.had0uken.blog.repository.CommentRepository;
 import com.had0uken.blog.repository.PostRepository;
 import com.had0uken.blog.repository.UserRepository;
-import com.had0uken.blog.sequrity.Access;
+import com.had0uken.blog.access.Access;
 import com.had0uken.blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

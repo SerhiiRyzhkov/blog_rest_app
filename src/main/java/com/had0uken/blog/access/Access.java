@@ -1,8 +1,5 @@
-package com.had0uken.blog.sequrity;
+package com.had0uken.blog.access;
 
-import com.had0uken.blog.model.post.Comment;
-import com.had0uken.blog.model.post.Post;
-import com.had0uken.blog.model.post.Stories;
 import com.had0uken.blog.model.post.UserOwned;
 import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
@@ -33,6 +30,17 @@ public class Access {
                 ||(user.getAuthorities().contains(Role.MODERATOR)));
     }
 
+    public boolean addUserAccess(Authentication authentication){
+        User user = userRepository.findByEmail(authentication.getName()).get();
+        return user.getRole().equals(Role.ADMIN);
+    }
 
 
+    public boolean updateUserAccess(User updater, User updatable){
+        return updater.getRole().equals(Role.ADMIN)&&!updatable.getRole().equals(Role.ADMIN);
+    }
+
+    public boolean deleteUserAccess(User existingUser, User deleter) {
+        return (deleter.getRole().equals(Role.ADMIN))&&!existingUser.getRole().equals(Role.ADMIN);
+    }
 }

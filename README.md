@@ -5,50 +5,60 @@ in process...
 
 ### Auth
 
-| Method | Url                    | Description | Sample Valid Request Body | 
-|--------|------------------------|-------------|---------------------------|
-| POST   | /api/auth/register     | Sign up     | [JSON](#signUp)           |
-| POST   | /api/auth/authenticate | Log in      | [JSON](#signIn)           |
+| Method | Url                           | Description                   | Sample Valid Request Body  | 
+|--------|-------------------------------|-------------------------------|----------------------------|
+| POST   | /api/auth/register            | Sign up                       | [JSON](#signUp)            |
+| POST   | /api/auth/authenticate        | Log in                        | [JSON](#signIn)            |
 
 ### Posts
 
-| Method | Url                    | Description                  | Sample Valid Request Body | 
-|--------|------------------------|------------------------------|---------------------------|
-| GET    | /api/posts/            | Get all posts                |                           |
-| GET    | /api/posts/{id}        | Get a post by id             |                           |
-| POST   | /api/posts/            | Add a new post               | [JSON](#addPost)          |
-| PUT    | /api/posts/{id}        | Update a post                | [JSON](#updatePost)       |
-| DELETE | /api/posts/{id}        | Delete a post                |                           |
-| POST   | /api/posts/{id}/like   | Like/unlike a post           |                           |
-| POST   | /api/posts/{id}/repost | Repost a post                |                           |
+| Method | Url                           | Description                   | Sample Valid Request Body  | 
+|--------|-------------------------------|-------------------------------|----------------------------|
+| GET    | /api/posts/                   | Get all posts                 |                            |
+| GET    | /api/posts/{id}               | Get a post by id              |                            |
+| POST   | /api/posts/                   | Add a new post                | [JSON](#addPost)           |
+| PUT    | /api/posts/{id}               | Update a post                 | [JSON](#updatePost)        |
+| DELETE | /api/posts/{id}               | Delete a post                 |                            |
+| POST   | /api/posts/{id}/like          | Like/unlike a post            |                            |
+| POST   | /api/posts/{id}/repost        | Repost a post                 |                            |
 
 ### Stories
 
-| Method | Url                    | Description                  | Sample Valid Request Body  | 
-|--------|------------------------|------------------------------|----------------------------|
-| GET    | /api/stories/          | Get all stories              |                            |
-| GET    | /api/stories/{id}      | Get a stories by id          |                            |
-| POST   | /api/stories/          | Add a new stories            | [JSON](#addStories)        |
-| DELETE | /api/posts/{id}        | Delete stories               |                            |
-| POST   | /api/posts/{id}/like   | Like/unlike a stories        |                            |
-| POST   | /api/posts/{id}/repost | Repost a stories             |                            |
+| Method | Url                           | Description                   | Sample Valid Request Body  | 
+|--------|-------------------------------|-------------------------------|----------------------------|
+| GET    | /api/stories/                 | Get all stories               |                            |
+| GET    | /api/stories/{id}             | Get a stories by id           |                            |
+| POST   | /api/stories/                 | Add a new stories             | [JSON](#addStories)        |
+| DELETE | /api/posts/{id}               | Delete stories                |                            |
+| POST   | /api/posts/{id}/like          | Like/unlike a stories         |                            |
+| POST   | /api/posts/{id}/repost        | Repost a stories              |                            |
 
 ### Tags
 
-| Method | Url                    | Description                  | Sample Valid Request Body  | 
-|--------|------------------------|------------------------------|----------------------------|
-| GET    | /api/tags/{id}/posts   | Get posts by tag             |                            |
-| GET    | /api/tags/{id}/stories | Get stories by tag           |                            |
+| Method | Url                           | Description                   | Sample Valid Request Body  | 
+|--------|-------------------------------|-------------------------------|----------------------------|
+| GET    | /api/tags/{id}/posts          | Get posts by tag              |                            |
+| GET    | /api/tags/{id}/stories        | Get stories by tag            |                            |
 
 ### Comments
 
-| Method | Url                     | Description                 | Sample Valid Request Body | 
-|--------|-------------------------|-----------------------------|---------------------------|
-| GET    | /api/comments/{id}/post | Get comments by post Id     |                           |
-| GET    | /api/comments/{id}      | Get a comment by comment Id |                           |
-| POST   | /api/comments/{id}/post | Add a new comment to post   | [JSON](#addComment)       |
-| PUT    | /api/comments/{id}      | Update a comment by Id      | [JSON](#updateComment)    |
-| DELETE | /api/comments/{id}      | Delete a comment by Id      |                           |
+| Method | Url                           | Description                   | Sample Valid Request Body   | 
+|--------|-------------------------------|-------------------------------|-----------------------------|
+| GET    | /api/comments/{id}/post       | Get comments by post Id       |                             |
+| GET    | /api/comments/{id}            | Get a comment by comment Id   |                             |
+| POST   | /api/comments/{id}/post       | Add a new comment to post     | [JSON](#addComment)         |
+| PUT    | /api/comments/{id}            | Update a comment by Id        | [JSON](#updateComment)      |
+| DELETE | /api/comments/{id}            | Delete a comment by Id        |                             |
+
+### Users
+
+| Method | Url                           | Description                   | Sample Valid Request Body | 
+|--------|-------------------------------|-------------------------------|---------------------------|
+| GET    | /api/users/{username}/posts   | Get posts published by user   |                           |
+| GET    | /api/users/{username}/stories | Get stories published by user |                           |
+| POST   | /api/users/                   | Add a new user (Only admins)  | [JSON](#addUser)          |
+| PUT    | /api/users/{username}	        | Update user (Only admins)     | [JSON](#updateUser)       |
+| DELETE | /api/users/{username}         | Delete a user (Only admins)   |                           |
 
 
 ##  JSON Request Bodies examples
@@ -133,3 +143,22 @@ in process...
   "text": "Hi, my post was updated"
 }
 ```
+
+##### <a id="addUser">Add a new user -> /api/users/</a>
+```json
+{
+  "firstname": "Serhii",
+  "lastname": "Ryzhkov",
+  "email": "had0uken2@ukr.net",
+  "password": "999000"
+}
+```
+
+##### <a id="updateUser">Update a user -> /api/users/{username}</a>
+```json
+{
+  "password": "newPassword123QWERTY",
+  "role": "MODERATOR"
+}
+```
+

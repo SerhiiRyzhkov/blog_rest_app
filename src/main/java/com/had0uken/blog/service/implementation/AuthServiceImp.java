@@ -1,5 +1,6 @@
 package com.had0uken.blog.service.implementation;
 
+import com.had0uken.blog.access.Access;
 import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.repository.UserRepository;
@@ -34,11 +35,18 @@ public class AuthServiceImp implements AuthService {
 
     }
 
+
+
     @Override
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         String jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder().token(jwtToken).build();
+    }
+
+    @Override
+    public PasswordEncoder getEncoder() {
+        return passwordEncoder;
     }
 }
