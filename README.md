@@ -7,15 +7,20 @@ This project is a Java-based Spring REST API application designed to mimic the f
 - [Technologies](#technologies)
 - [Setup](#setup)
 - [API](#api)
-- [Installation](#installation)
+
 
 
 ## Technologies <a id="technologies"> </a>
 Spring Framework: Utilizing Spring Boot for building RESTful APIs. Spring provides a powerful and flexible framework for creating Java-based web applications.
+
 PostgreSQL: PostgreSQL is used for robust and scalable data storage. It's a popular open-source relational database.
+
 JWT (JSON Web Tokens): JWT is used for secure user authentication. It's a standard for securing web applications and APIs.
+
 JPA (Java Persistence API): JPA is used for object-relational mapping, simplifying database interaction in Java applications.
+
 Spring Security: Spring Security is used for managing security features, including user authentication and authorization.
+
 
 ## Setup  <a id="setup"> </a>
 
