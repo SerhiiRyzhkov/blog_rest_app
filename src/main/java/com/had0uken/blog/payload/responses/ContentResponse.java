@@ -27,10 +27,6 @@ public class ContentResponse<T>  extends Response implements Serializable {
     HttpStatus httpStatus;
 
     @JsonIgnore
-    public int getSize(){
-        return content.size();
-    }
-    @JsonIgnore
     @Override
     public HttpStatus getStatus() {
         return httpStatus;

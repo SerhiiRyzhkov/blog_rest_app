@@ -1,7 +1,37 @@
-in process...
+# BLOG REST APPLICATION
+
+This project is a Java-based Spring REST API application designed to mimic the functionality of a social media platform like Instagram. It utilizes various technologies including Spring Framework, PostgreSQL for data storage, JWT for authentication, and JPA for data persistence. The primary goal is to provide a backend for a social media platform.
+
+## Table of Contents
+
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [API](#api)
+- [Installation](#installation)
 
 
-## Api
+## Technologies <a id="technologies"> </a>
+Spring Framework: Utilizing Spring Boot for building RESTful APIs. Spring provides a powerful and flexible framework for creating Java-based web applications.
+PostgreSQL: PostgreSQL is used for robust and scalable data storage. It's a popular open-source relational database.
+JWT (JSON Web Tokens): JWT is used for secure user authentication. It's a standard for securing web applications and APIs.
+JPA (Java Persistence API): JPA is used for object-relational mapping, simplifying database interaction in Java applications.
+Spring Security: Spring Security is used for managing security features, including user authentication and authorization.
+
+## Setup  <a id="setup"> </a>
+
+1. Clone the application 
+   git clone https://github.com/SerhiiRyzhkov/blog_rest_app.git
+2. Create PostgreSQL database
+   create database blog_app
+3. Configure properties file
+   Open src/main/resources/application.yml and configure it according to your database
+4. Run the app using Maven
+   mvn spring-boot:run
+
+The app will start running at http://localhost:8080
+
+
+## Api <a id="api"> </a>
 
 ### Auth
 
