@@ -1,8 +1,6 @@
 package com.had0uken.blog.controller;
 
 import com.had0uken.blog.payload.responses.Response;
-import com.had0uken.blog.service.PostService;
-import com.had0uken.blog.service.StoriesService;
 import com.had0uken.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +16,15 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping("/{tagName}/posts")
-    public ResponseEntity<Response> getPostsByTag(@PathVariable String tagName){
+    public ResponseEntity<Response> getPostsByTag(@PathVariable String tagName) {
         Response response = tagService.getPostsByTag(tagName);
-        return new ResponseEntity<>(response,response.getStatus());
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
     @GetMapping("/{tagName}/stories")
-    public ResponseEntity<Response> getStoriesByTag(@PathVariable String tagName){
+    public ResponseEntity<Response> getStoriesByTag(@PathVariable String tagName) {
         Response response = tagService.getStoriesByTag(tagName);
-        return new ResponseEntity<>(response,response.getStatus());
+        return new ResponseEntity<>(response, response.getStatus());
     }
 }
 

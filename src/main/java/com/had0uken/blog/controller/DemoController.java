@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class DemoController {
     @GetMapping("/demo-controller")
-    public ResponseEntity<String> hello(){
+    public ResponseEntity<String> hello() {
         System.out.println("enter to demo method");
         return ResponseEntity.ok("Hello from demo controller");
     }

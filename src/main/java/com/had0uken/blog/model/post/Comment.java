@@ -17,7 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "comments")
-public class Comment implements Serializable,UserOwned {
+public class Comment implements Serializable, UserOwned {
     @Serial
     private static final long serialVersionUID = 1655839607927719908L;
     @Id

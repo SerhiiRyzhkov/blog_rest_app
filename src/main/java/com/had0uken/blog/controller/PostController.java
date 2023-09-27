@@ -19,53 +19,51 @@ public class PostController {
 
 
     @GetMapping("/")
-    public ResponseEntity<Response> getAllPosts(){
+    public ResponseEntity<Response> getAllPosts() {
         Response response = postService.getAllPosts();
-        return new ResponseEntity<>(response,response.getStatus());
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getPostById(@PathVariable Long id)
-    {
+    public ResponseEntity<Response> getPostById(@PathVariable Long id) {
         Response response = postService.getPost(id);
-        return new ResponseEntity<>(response,response.getStatus());
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
 
     @PostMapping("/")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Response> addNewPost(@RequestBody Post post, Authentication authentication){
-        Response response = postService.addNewPost(post,authentication);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<Response> addNewPost(@RequestBody Post post, Authentication authentication) {
+        Response response = postService.addNewPost(post, authentication);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Response> updatePost(@PathVariable Long id, @RequestBody Post post, Authentication authentication){
-        Response response = postService.updatePost(post,id,authentication);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<Response> updatePost(@PathVariable Long id, @RequestBody Post post, Authentication authentication) {
+        Response response = postService.updatePost(post, id, authentication);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
-    public ResponseEntity<Response> deletePost(@PathVariable Long id, Authentication authentication){
-        Response response = postService.deletePost(id,authentication);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<Response> deletePost(@PathVariable Long id, Authentication authentication) {
+        Response response = postService.deletePost(id, authentication);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
 
     @PostMapping("/{id}/like")
-    public ResponseEntity<Response> likePost (@PathVariable Long id, Authentication authentication){
-        Response response = postService.likePost(id,authentication);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<Response> likePost(@PathVariable Long id, Authentication authentication) {
+        Response response = postService.likePost(id, authentication);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
     @PostMapping("/{id}/repost")
-    public ResponseEntity<Response> repostPost (@PathVariable Long id, Authentication authentication){
-        Response response = postService.repostedPost(id,authentication);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<Response> repostPost(@PathVariable Long id, Authentication authentication) {
+        Response response = postService.repostedPost(id, authentication);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
 }

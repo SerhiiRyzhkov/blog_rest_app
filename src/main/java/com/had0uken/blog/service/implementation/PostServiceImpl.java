@@ -32,69 +32,67 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAllPosts() {
-        return new ContentResponse<>(postRepository.findAll(),HttpStatus.OK);
+        return new ContentResponse<>(postRepository.findAll(), HttpStatus.OK);
     }
 
     @Override
     public Response getPost(Long id) {
         Optional<Post> postOptional = postRepository.findById(id);
-        if(postOptional.isPresent())
-        return new ContentResponse<>(List.of(postOptional.get()),HttpStatus.OK);
+        if (postOptional.isPresent())
+            return new ContentResponse<>(List.of(postOptional.get()), HttpStatus.OK);
         else return new ApiResponse("Post not found", HttpStatus.NOT_FOUND);
     }
 
 
     @Override
-    public Response addNewPost(Post post,Authentication authentication) {
+    public Response addNewPost(Post post, Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName()).get();
         post.setUser(user);
         post.setCreated(LocalDate.now());
         tagRepository.saveAll(post.getTags());
         postRepository.save(post);
-        return new ApiResponse("Post created successfully",HttpStatus.CREATED);
+        return new ApiResponse("Post created successfully", HttpStatus.CREATED);
     }
 
     @Override
     public Response updatePost(Post post, Long id, Authentication authentication) {
         Optional<Post> optional = postRepository.findById(id);
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             Post existingPost = optional.get();
-            if(!access.editCheckAccess(existingPost,authentication))
-                return new ApiResponse("You do not have permission to update this post",HttpStatus.FORBIDDEN);
-            if(post.getTitle()!=null)
-            existingPost.setTitle(post.getTitle());
-            if(post.getBody()!=null)
-            existingPost.setBody(post.getBody());
-            if(post.getMediaFiles()!=null) {
-              List<MediaFile> deleteList = existingPost.getMediaFiles();
-              existingPost.setMediaFiles(post.getMediaFiles());
-              mediaRepository.deleteAll(deleteList);
+            if (!access.editCheckAccess(existingPost, authentication))
+                return new ApiResponse("You do not have permission to update this post", HttpStatus.FORBIDDEN);
+            if (post.getTitle() != null)
+                existingPost.setTitle(post.getTitle());
+            if (post.getBody() != null)
+                existingPost.setBody(post.getBody());
+            if (post.getMediaFiles() != null) {
+                List<MediaFile> deleteList = existingPost.getMediaFiles();
+                existingPost.setMediaFiles(post.getMediaFiles());
+                mediaRepository.deleteAll(deleteList);
             }
             postRepository.save(existingPost);
-            return new ApiResponse("Post updated successfully",HttpStatus.OK);
-        }
-        else
-            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+            return new ApiResponse("Post updated successfully", HttpStatus.OK);
+        } else
+            return new ApiResponse("Post was not found", HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Response deletePost(Long id, Authentication authentication) {
-        Optional<Post>optional = postRepository.findById(id);
-        if(optional.isPresent()){
+        Optional<Post> optional = postRepository.findById(id);
+        if (optional.isPresent()) {
             Post existingPost = optional.get();
-            if(!access.deleteCheckAccess(existingPost, authentication))
-                return new ApiResponse("You do not have permission to delete this post",HttpStatus.FORBIDDEN);
+            if (!access.deleteCheckAccess(existingPost, authentication))
+                return new ApiResponse("You do not have permission to delete this post", HttpStatus.FORBIDDEN);
             postRepository.delete(existingPost);
-            return new ApiResponse("Post deleted successfully",HttpStatus.NO_CONTENT);
-        }
-        else
-            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+            return new ApiResponse("Post deleted successfully", HttpStatus.NO_CONTENT);
+        } else
+            return new ApiResponse("Post was not found", HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Response likePost(Long id, Authentication authentication) {
-        Optional<Post> optional=postRepository.findById(id);
-        if(optional.isPresent()) {
+        Optional<Post> optional = postRepository.findById(id);
+        if (optional.isPresent()) {
             Post existingPost = optional.get();
             User user = userRepository.findByEmail(authentication.getName()).get();
             Response response;
@@ -110,18 +108,18 @@ public class PostServiceImpl implements PostService {
             userRepository.save(user);
             postRepository.save(existingPost);
             return response;
-        }
-        else
-            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+        } else
+            return new ApiResponse("Post was not found", HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Response repostedPost(Long id, Authentication authentication) {
-        Optional<Post> optional=postRepository.findById(id);
-        if(optional.isPresent()) {
+        Optional<Post> optional = postRepository.findById(id);
+        if (optional.isPresent()) {
             Post existingPost = optional.get();
             User user = userRepository.findByEmail(authentication.getName()).get();
-            if(existingPost.getUser().equals(user)) return new ApiResponse("You are not allowed to repost your own post", HttpStatus.FORBIDDEN);
+            if (existingPost.getUser().equals(user))
+                return new ApiResponse("You are not allowed to repost your own post", HttpStatus.FORBIDDEN);
 
             Response response;
 
@@ -135,12 +133,9 @@ public class PostServiceImpl implements PostService {
             userRepository.save(user);
             postRepository.save(existingPost);
             return response;
-        }
-        else
-            return new ApiResponse("Post was not found",HttpStatus.NOT_FOUND);
+        } else
+            return new ApiResponse("Post was not found", HttpStatus.NOT_FOUND);
     }
-
-
 
 
 }

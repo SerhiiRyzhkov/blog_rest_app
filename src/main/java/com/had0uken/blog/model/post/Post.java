@@ -16,7 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "posts")
-public class Post implements Serializable,UserOwned {
+public class Post implements Serializable, UserOwned {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

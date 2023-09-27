@@ -7,5 +7,4 @@ public enum MediaType {
     WebP,
     MP4,
     AAC
-
 }

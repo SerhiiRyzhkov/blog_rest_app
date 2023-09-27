@@ -1,7 +1,6 @@
 package com.had0uken.blog.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Map;
 
 public interface JwtService {

@@ -39,8 +39,8 @@ public class StoriesServiceImpl implements StoriesService {
     @Override
     public Response getStories(Long id) {
         Optional<Stories> optional = storiesRepository.findById(id);
-        if(optional.isPresent())
-            return new ContentResponse<>(List.of(optional.get()),HttpStatus.OK);
+        if (optional.isPresent())
+            return new ContentResponse<>(List.of(optional.get()), HttpStatus.OK);
         else return new ApiResponse("Stories not found", HttpStatus.NOT_FOUND);
     }
 
@@ -61,30 +61,28 @@ public class StoriesServiceImpl implements StoriesService {
     @Override
     public Response deleteStories(Long id, Authentication authentication) {
         Optional<Stories> optional = storiesRepository.findById(id);
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             Stories existingStories = optional.get();
-            if(!access.editCheckAccess(existingStories,authentication))
+            if (!access.editCheckAccess(existingStories, authentication))
                 return new ApiResponse("You do not have permission to delete this stories", HttpStatus.FORBIDDEN);
             storiesRepository.delete(existingStories);
 
             return new ApiResponse("Stories deleted successfully", HttpStatus.NO_CONTENT);
-        }
-        else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
+        } else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Response likeStories(Long id, Authentication authentication) {
         Optional<Stories> optional = storiesRepository.findById(id);
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
             Stories existingStories = optional.get();
             User user = userRepository.findByEmail(authentication.getName()).get();
             Response response;
-            if(!existingStories.getLikedByUsers().contains(user)){
+            if (!existingStories.getLikedByUsers().contains(user)) {
                 existingStories.getLikedByUsers().add(user);
                 user.getLikedStories().add(existingStories);
                 response = new ApiResponse("Stories liked successfully", HttpStatus.OK);
-            }
-            else {
+            } else {
                 existingStories.getLikedByUsers().remove(user);
                 user.getLikedStories().remove(existingStories);
                 response = new ApiResponse("Stories unliked successfully", HttpStatus.OK);
@@ -92,14 +90,13 @@ public class StoriesServiceImpl implements StoriesService {
             userRepository.save(user);
             storiesRepository.save(existingStories);
             return response;
-        }
-        else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
+        } else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Response repostedStories(Long id, Authentication authentication) {
         Optional<Stories> optional = storiesRepository.findById(id);
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
             Stories existingStories = optional.get();
             User user = userRepository.findByEmail(authentication.getName()).get();
             Response response;
@@ -109,8 +106,7 @@ public class StoriesServiceImpl implements StoriesService {
             userRepository.save(user);
             storiesRepository.save(existingStories);
             return response;
-        }
-        else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
+        } else return new ApiResponse("Stories was not found", HttpStatus.NOT_FOUND);
     }
 
 

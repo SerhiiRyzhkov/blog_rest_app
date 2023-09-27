@@ -31,10 +31,9 @@ public class AuthServiceImp implements AuthService {
     @Override
     public Response register(RegisterRequest request) {
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             return new ApiResponse("Email address is already registered.", HttpStatus.CONFLICT);
-        }
-        else {
+        } else {
             User user = User.builder().firstname(request.getFirstname()).lastname(request.getLastname())
                     .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).
                     role(Role.USER).build();
@@ -43,7 +42,6 @@ public class AuthServiceImp implements AuthService {
             return new ApiResponse("Registration success", HttpStatus.OK);
         }
     }
-
 
 
     @Override
