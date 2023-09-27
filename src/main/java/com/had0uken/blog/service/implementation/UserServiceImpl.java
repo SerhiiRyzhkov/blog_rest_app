@@ -33,6 +33,9 @@ public class UserServiceImpl implements CustomUserDetailsService {
 
 
 
+
+
+
     @Override
     public Response getPostsByUser(String username) {
         Optional<User> userOptional = userRepository.findByEmail(username);
@@ -102,6 +105,22 @@ public class UserServiceImpl implements CustomUserDetailsService {
                 return new ApiResponse("You do not have permission to delete this user", HttpStatus.FORBIDDEN);
             userRepository.delete(existingUser);
             return new ApiResponse("User was deleted", HttpStatus.OK);
+        }
+        else
+            return new ApiResponse("User was not found", HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public Response setUserRole(String username, Authentication authentication, Role role) {
+        Optional<User> optionalUser = userRepository.findByEmail(username);
+        if(optionalUser.isPresent())
+        {
+            User existingUser = optionalUser.get();
+            if(!access.setRole(userRepository.findByEmail(authentication.getName()).get()))
+                return new ApiResponse("You do not have permission to change Role", HttpStatus.FORBIDDEN);
+            existingUser.setRole(role);
+            userRepository.save(existingUser);
+            return new ApiResponse(existingUser.getEmail() + " assigned as " + existingUser.getRole() , HttpStatus.OK);
         }
         else
             return new ApiResponse("User was not found", HttpStatus.NOT_FOUND);

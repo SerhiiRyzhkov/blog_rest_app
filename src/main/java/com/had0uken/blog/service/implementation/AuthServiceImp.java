@@ -1,6 +1,5 @@
 package com.had0uken.blog.service.implementation;
 
-import com.had0uken.blog.access.Access;
 import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.repository.UserRepository;

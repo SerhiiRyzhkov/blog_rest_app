@@ -1,5 +1,6 @@
 package com.had0uken.blog.controller;
 
+import com.had0uken.blog.model.user.Role;
 import com.had0uken.blog.model.user.User;
 import com.had0uken.blog.payload.responses.Response;
 import com.had0uken.blog.service.AuthService;
@@ -44,6 +45,25 @@ public class UserController {
     @DeleteMapping("/{username}")
     public ResponseEntity<Response> deleteUser(@PathVariable String username, Authentication authentication){
         Response response = userService.deleteUser(username,authentication);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
+
+    @PutMapping("/{username}/admin")
+    public ResponseEntity<Response> setAdmin(@PathVariable String username,Authentication authentication){
+        Response response = userService.setUserRole(username,authentication, Role.ADMIN);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
+
+
+    @PutMapping("/{username}/moderator")
+    public ResponseEntity<Response> setModerator(@PathVariable String username,Authentication authentication){
+        Response response = userService.setUserRole(username,authentication, Role.MODERATOR);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
+
+    @PutMapping("/{username}/user")
+    public ResponseEntity<Response> setUser(@PathVariable String username,Authentication authentication){
+        Response response = userService.setUserRole(username,authentication, Role.USER);
         return new ResponseEntity<>(response,response.getStatus());
     }
 

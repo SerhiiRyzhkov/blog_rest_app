@@ -43,4 +43,8 @@ public class Access {
     public boolean deleteUserAccess(User existingUser, User deleter) {
         return (deleter.getRole().equals(Role.ADMIN))&&!existingUser.getRole().equals(Role.ADMIN);
     }
+
+    public boolean setRole(User user) {
+        return user.getRole().equals(Role.ADMIN);
+    }
 }

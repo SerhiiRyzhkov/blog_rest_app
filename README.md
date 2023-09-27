@@ -52,14 +52,16 @@ in process...
 
 ### Users
 
-| Method | Url                           | Description                   | Sample Valid Request Body | 
-|--------|-------------------------------|-------------------------------|---------------------------|
-| GET    | /api/users/{username}/posts   | Get posts published by user   |                           |
-| GET    | /api/users/{username}/stories | Get stories published by user |                           |
-| POST   | /api/users/                   | Add a new user (Only admins)  | [JSON](#addUser)          |
-| PUT    | /api/users/{username}	        | Update user (Only admins)     | [JSON](#updateUser)       |
-| DELETE | /api/users/{username}         | Delete a user (Only admins)   |                           |
-
+| Method | Url                              | Description                       | Sample Valid Request Body | 
+|--------|----------------------------------|-----------------------------------|---------------------------|
+| GET    | /api/users/{username}/posts      | Get posts published by user       |                           |
+| GET    | /api/users/{username}/stories    | Get stories published by user     |                           |
+| POST   | /api/users/                      | Add a new user (Only admins)      | [JSON](#addUser)          |
+| PUT    | /api/users/{username}	           | Update user (Only admins)         | [JSON](#updateUser)       |
+| DELETE | /api/users/{username}            | Delete a user (Only admins)       |                           |
+| PUT    | /api/users/{username}/admin	     | Assign as admin (Only admins)     |                           |
+| PUT    | /api/users/{username}/moderator	 | Assign as moderator (Only admins) |                           |
+| PUT    | /api/users/{username}/user	      | Assign as user (Only admins)      |                           |
 
 ##  JSON Request Bodies examples
 
