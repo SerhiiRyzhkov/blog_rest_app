@@ -3,12 +3,15 @@
 This project is a Java-based Spring REST API application designed to mimic the functionality of a social media platform like Instagram. It utilizes various technologies including Spring Framework, PostgreSQL for data storage, JWT for authentication, and JPA for data persistence. The primary goal is to provide a backend for a social media platform.
 
 ## Table of Contents
-
+- [Usage](#usage)
 - [Technologies](#technologies)
 - [Setup](#setup)
 - [API](#api)
 
+### Usage Instructions <a id="usage"></a>
 
+1. Open your Postmap.
+2. Using [API](#api) send requests to 185.185.126.239:8080/
 
 ## Technologies <a id="technologies"></a>
 - **Spring Framework**: Utilizing Spring Boot for building RESTful APIs. Spring provides a powerful and flexible framework for creating Java-based web applications.
@@ -16,7 +19,7 @@ This project is a Java-based Spring REST API application designed to mimic the f
 - **JWT (JSON Web Tokens)**: JWT is used for secure user authentication. It's a standard for securing web applications and APIs.
 - **JPA (Java Persistence API)**: JPA is used for object-relational mapping, simplifying database interaction in Java applications.
 - **Spring Security**: Spring Security is used for managing security features, including user authentication and authorization.
-- **Docker**: Docker is used for containerization and deployment of the application. It allows for easy packaging and distribution of applications and their dependencies.
+
 
 ## Setup <a id="setup"></a>
 
